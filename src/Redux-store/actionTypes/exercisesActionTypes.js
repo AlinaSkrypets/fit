@@ -1,0 +1,4 @@
+export const ADD_EXERCISE = "ADD_EXERCISE";
+export const REMOVE_EXERCISE = "REMOVE_EXERCISE";
+export const EXERCISE_UP = "EXERCISE_UP";
+export const EXERCISE_DOWN = "EXERCISE_DOWN";
