@@ -18,6 +18,9 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
+import { connect } from "react-redux";
+import { exercisesActions } from "../store/actions";
+import { exercisesActionTypes } from "../store/actionTypes";
 
 const drawerWidth = 240;
 
@@ -54,16 +57,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ResponsiveDrawer(props) {
-  const { window } = props;
+function ResponsiveDrawer({ exerciseList, window, addExercise }) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [exerciseItem, setExerciseItem] = useState({
     exerciseName: "",
-    exerciseMeasurement: "",
+    exerciseMeasurement: "kilograms",
   });
-
   /*create exercises list in local storage*/
   // localStorage.setItem('exercisesList', JSON.stringify([]));
 
@@ -125,6 +126,8 @@ function ResponsiveDrawer(props) {
       JSON.stringify(newLocalStorageExercisesList)
     );
     console.log(newLocalStorageExercisesList);
+
+    // exerciseList.dispatch(exercisesActions.addExercise);
   };
 
   return (
@@ -168,9 +171,8 @@ function ResponsiveDrawer(props) {
             <TextField onChange={exerciseNameHandler} label="Exercise name" />
             <div>
               <Select
-                value="age"
+                value={exerciseItem.exerciseMeasurement}
                 onChange={exerciseMeasurementTypeHandler}
-                inputProps={{ "aria-label": "Without label" }}
               >
                 <MenuItem value="kilograms">kilograms</MenuItem>
                 <MenuItem value="minutes">minutes</MenuItem>
@@ -193,12 +195,16 @@ function ResponsiveDrawer(props) {
   );
 }
 
-ResponsiveDrawer.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
+function mapStateToProps(state) {
+  const { exerciseList, loading } = state.exercises;
+  return { exerciseList, loading };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addExercise: (payload) =>
+      dispatch({ type: exercisesActionTypes.ADD_EXERCISE, payload: payload }),
+  };
 };
 
-export default ResponsiveDrawer;
+export default connect(mapStateToProps, mapDispatchToProps)(ResponsiveDrawer);

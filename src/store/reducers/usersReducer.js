@@ -2,7 +2,7 @@ import { usersActionTypes } from "../actionTypes";
 
 const initialState = {
   users: [],
-  currentUser: null,
+  currentUser: {},
 };
 
 function usersReducer(state = initialState, action) {
