@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
@@ -8,18 +8,13 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
-import { connect } from "react-redux";
-import { exercisesActions } from "../store/actions";
+import EditExercises from "../components/EditExercisesWrapper";
 import { DrawerMenuMain } from "../constants";
 import { Link } from "react-router-dom";
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -55,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateExercisePage({ exerciseList, window, addExercise }) {
+function EditExercisePage({ exerciseList, window, exerciseUp }) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [exerciseItem, setExerciseItem] = useState({
-    exerciseName: "",
-    exerciseMeasurement: "kilograms",
-  });
+  // const [exerciseItem, setExerciseItem] = useState({
+  //   exerciseName: "",
+  //   exerciseMeasurement: "kilograms",
+  // });
   /*create exercises list in local storage*/
   // localStorage.setItem('exercisesList', JSON.stringify([]));
 
@@ -89,37 +84,6 @@ function CreateExercisePage({ exerciseList, window, addExercise }) {
 
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
-  //add "exerciseMeasurement" fieled to exerciseItem object(is state) when user selects exercise Measurement
-  const exerciseMeasurementTypeHandler = (event) => {
-    setExerciseItem({
-      ...exerciseItem,
-      exerciseMeasurement: event.target.value,
-    });
-  };
-
-  //add "exerciseName" fieled to exerciseItem object(is state) when user enters exercise Name in input
-  const exerciseNameHandler = (event) => {
-    setExerciseItem({ ...exerciseItem, exerciseName: event.target.value });
-  };
-
-  /*create new Exercise by click on "create Exercise" button
-    And push new exercise to Exercises list(array) with all created exercises(objects) in localstorage*/
-  const createExerciseBtnHandler = () => {
-    /*create fullExerciseItem: add ID field to exerciseItem*/
-    const fullExerciseItem = { ...exerciseItem, id: Date.now() };
-    /*get Exercises List from local storage in variable "newLocalStorageExercisesList"
-         and push new Exercise to newLocalStorageExercisesList */
-    const newLocalStorageExercisesList =
-      JSON.parse(localStorage.getItem("exercisesList")) || [];
-    newLocalStorageExercisesList.push(fullExerciseItem);
-    localStorage.setItem(
-      "exercisesList",
-      JSON.stringify(newLocalStorageExercisesList)
-    );
-    console.log(newLocalStorageExercisesList);
-    addExercise(fullExerciseItem);
-  };
 
   return (
     <div className={classes.root}>
@@ -159,25 +123,12 @@ function CreateExercisePage({ exerciseList, window, addExercise }) {
         <Card>
           <CardHeader>card header111 </CardHeader>
           <CardContent>
-            <TextField onChange={exerciseNameHandler} label="Exercise name" />
-            <div>
-              <Select
-                value={exerciseItem.exerciseMeasurement}
-                onChange={exerciseMeasurementTypeHandler}
-              >
-                <MenuItem value="kilograms">kilograms</MenuItem>
-                <MenuItem value="minutes">minutes</MenuItem>
-                <MenuItem value="kilometers">kilometers</MenuItem>
-              </Select>
-            </div>
+            {/*Block  with all exercises*/}
+            <EditExercises />
           </CardContent>
           <CardActions>
-            <Button
-              onClick={createExerciseBtnHandler}
-              color="primary"
-              variant="contained"
-            >
-              Create Exercise
+            <Button color="primary" variant="contained">
+              Update Exercises
             </Button>
           </CardActions>
         </Card>
@@ -186,22 +137,4 @@ function CreateExercisePage({ exerciseList, window, addExercise }) {
   );
 }
 
-// function mapStateToProps(state) {
-//   const { exerciseList, loading } = state.exercises;
-//   return { exerciseList, loading };
-// }
-
-const mapStateToProps = (state) => {
-  const { exerciseList } = state.exercises; //get variable "exerciseList" from redux state
-  return { exerciseList: exerciseList }; //put variable "exerciseList" inside exerciseList field. And return object with one option
-  //Because mapStateToProps and mapDispatchToProps functions should return just objects!
-};
-
-// function mapDispatchToProps(dispatch) {
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addExercise: (payload) => dispatch(exercisesActions.addExercise(payload)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateExercisePage);
+export default EditExercisePage;
