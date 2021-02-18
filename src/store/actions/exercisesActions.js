@@ -1,7 +1,7 @@
 import { exercisesActionTypes } from "../actionTypes/index";
 
 export const addExercise = (payload) => ({
-  type: "ADD_EXERCISE",
+  type: exercisesActionTypes.ADD_EXERCISE,
   payload: payload,
 });
 

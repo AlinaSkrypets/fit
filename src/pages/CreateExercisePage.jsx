@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 function CreateExercisePage({ exerciseList, window, addExercise }) {
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [exerciseItem, setExerciseItem] = useState({
     exerciseName: "",
     exerciseMeasurement: "kilograms",
@@ -90,7 +90,7 @@ function CreateExercisePage({ exerciseList, window, addExercise }) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  //add "exerciseMeasurement" fieled to exerciseItem object(is state) when user selects exercise Measurement
+  //add "exerciseMeasurement" fieled to exerciseItem object(in local state) when user selects exercise Measurement from select option
   const exerciseMeasurementTypeHandler = (event) => {
     setExerciseItem({
       ...exerciseItem,
@@ -98,7 +98,7 @@ function CreateExercisePage({ exerciseList, window, addExercise }) {
     });
   };
 
-  //add "exerciseName" fieled to exerciseItem object(is state) when user enters exercise Name in input
+  //add "exerciseName" fieled to exerciseItem object(in local state) when user enters exercise Name in input
   const exerciseNameHandler = (event) => {
     setExerciseItem({ ...exerciseItem, exerciseName: event.target.value });
   };
@@ -205,3 +205,12 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateExercisePage);
+
+const r = 88;
+function outer(oo) {
+  return function inner() {
+    console.log(oo)
+  }
+}
+
+let ll= outer(1212);

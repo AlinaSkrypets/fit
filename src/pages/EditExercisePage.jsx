@@ -12,7 +12,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
-import EditExercises from "../components/EditExercisesWrapper";
+import EditExercises from "../components/EditExercisesWrapper/EditExercisesWrapper";
 import { DrawerMenuMain } from "../constants";
 import { Link } from "react-router-dom";
 const drawerWidth = 240;
