@@ -19,18 +19,33 @@ function EditExercisesWrapper({
     removeExercise(index);
   };
 
-  // MOVE EXERCISE UP
-  const exerciseUpBtnHandler = (index) => () => {
-    if (index !== 0) {
-      exerciseUp(index);
-    }
-  };
+  // // MOVE EXERCISE UP
+  // const exerciseUpBtnHandler = (index) => () => {
+  //   if (index !== 0) {
+  //     exerciseUp(index);
+  //   }
+  // };
 
-  // MOVE EXERCISE DOWN
-  const exerciseDownBtnHandler = (index) => () => {
-    if (index !== exercisesList.length - 1) {
-      exerciseDown(index);
+  // // MOVE EXERCISE DOWN
+  // const exerciseDownBtnHandler = (index) => () => {
+  //   if (index !== exercisesList.length - 1) {
+  //     exerciseDown(index);
+  //   }
+  // };
+
+  //CHANGE EXERCISE POSITION
+  const exerciseChangePosition = (currentIndex, targetIndex) => () => {
+    let lastExerciseIndex = exercisesList.length - 1;
+
+    let payload = { currentIndex, targetIndex };
+    console.log("payload=", payload);
+
+    if (currentIndex !== 0 && targetIndex !== -1) {
+      console.log("not first");
     }
+    // exerciseChangePosition(payload);
+
+    // console.log(currentIndex, targetIndex);
   };
 
   const handleChangeInput = (id) => (event) => {
@@ -50,9 +65,10 @@ function EditExercisesWrapper({
           handleChangeInput={handleChangeInput}
           measurement={item.exerciseMeasurement}
           id={item.id}
+          index={index}
           removeExerciseBtnHandler={removeExerciseBtnHandler(index)}
-          exerciseUpBtnHandler={exerciseUpBtnHandler(index)}
-          exerciseDownBtnHandler={exerciseDownBtnHandler(index)}
+          exerciseChangePosition={exerciseChangePosition}
+          exerciseDownBtnHandler={exerciseChangePosition}
         />
       ))}
     </>
@@ -67,8 +83,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   removeExercise: (payload) =>
     dispatch(exercisesActions.removeExercise(payload)),
-  exerciseUp: (payload) => dispatch(exercisesActions.exerciseUp(payload)),
-  exerciseDown: (payload) => dispatch(exercisesActions.exerciseDown(payload)),
+  exerciseChangePosition: (payload) =>
+    dispatch(exercisesActions.exerciseChangePosition(payload)),
+  // exerciseUp: (payload) => dispatch(exercisesActions.exerciseUp(payload)),
+  // exerciseDown: (payload) => dispatch(exercisesActions.exerciseDown(payload)),
 });
 
 export default connect(

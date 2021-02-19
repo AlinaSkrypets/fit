@@ -7,11 +7,11 @@ import TextField from "@material-ui/core/TextField";
 function EditExercisesItem({
   name,
   measurement,
-  exerciseUpBtnHandler,
-  exerciseDownBtnHandler,
+  exerciseChangePosition,
   removeExerciseBtnHandler,
   handleChangeInput,
   id,
+  index,
 }) {
   return (
     <div className="exercise-item">
@@ -22,8 +22,8 @@ function EditExercisesItem({
         <MenuItem value="kilometers">kilometers</MenuItem>
       </Select>
       <p>{measurement}</p>
-      <button onClick={exerciseUpBtnHandler}>Up</button>
-      <button onClick={exerciseDownBtnHandler}>Down</button>
+      <button onClick={exerciseChangePosition(index, index - 1)}>Up</button>
+      <button onClick={exerciseChangePosition(index, index + 1)}>Down</button>
       <button onClick={removeExerciseBtnHandler}>Remove Exercise</button>
     </div>
   );
